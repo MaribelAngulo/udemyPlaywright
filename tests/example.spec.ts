@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test'
+import { loadHomepage, assertTitle } from '../helpers'
 
 test.describe('My first test suite', () => {
     test("Simple basic test", async ({ page }) => {
@@ -39,7 +40,7 @@ test.describe('My first test suite', () => {
         await expect(nonExistingElement).not.toBeVisible()
     })
 
-    test.describe.only('Hooks', () => {
+    test.describe('Hooks', () => {
         test.beforeEach( async ({ page }) => {
             await page.goto("https://www.example.com")
         })
@@ -51,5 +52,11 @@ test.describe('My first test suite', () => {
             const element = await page.$("h1")
             await element.screenshot({ path: "single_element_screenshot.png"})
         })
+    })
+
+    test.only("Custom Helpers", async ({ page }) => {
+        await loadHomepage(page)
+        await page.pause() // for debugging
+        await assertTitle(page)
     })
 })
