@@ -40,7 +40,7 @@ test.describe('My first test suite', () => {
         await expect(nonExistingElement).not.toBeVisible()
     })
 
-    test.describe('Hooks', () => {
+    test.describe.parallel.only('Hooks', () => {
         test.beforeEach( async ({ page }) => {
             await page.goto("https://www.example.com")
         })
@@ -54,7 +54,7 @@ test.describe('My first test suite', () => {
         })
     })
 
-    test.only("Custom Helpers", async ({ page }) => {
+    test("Custom Helpers", async ({ page }) => {
         await loadHomepage(page)
         await page.pause() // for debugging
         await assertTitle(page)
