@@ -1,21 +1,26 @@
 import { test, expect } from '@playwright/test'
+import { HomePage } from '../../page-objects/HomePage'
+import { LoginPage } from '../../page-objects/LoginPage'
+import { NavBar } from '../../page-objects/components/NavBar'
 
-test.describe.only('Filter Transactions', () => {
+test.describe('Filter Transactions', () => {
+    let homePage : HomePage
+    let loginPage : LoginPage
+    let navBar : NavBar
+
     //Before Hook
     test.beforeEach( async ({ page }) => {
-        await page.goto("http://zero.webappsecurity.com/")
-        await page.click("#signin_button")
-        await page.fill("#user_login", "username")
-        await page.fill("#user_password", "password")
-        await page.click("text=Sign in")
+        homePage = new HomePage(page)
+        loginPage = new LoginPage(page)
+        navBar = new NavBar(page)
+        await homePage.visit()
+        await homePage.clickOnSignInButton()
+        await loginPage.login("username", "password")
         await page.goto("http://zero.webappsecurity.com/bank/transfer-funds.html")
-        //await page.keyboard.press("Esc")
-        const accountActivityTab = await page.locator("#account_activity_tab")
-        await expect(accountActivityTab).toBeVisible()
-        await page.click("#account_activity_tab")
+        await navBar.clickOnTab("Account Activity")
     })
     
-    test("Transfer funds", async ({ page }) => {
+    test("Filter Transactions", async ({ page }) => {
         await page.selectOption("#aa_accountId", "2")
         const checkingAccountRows = await page.locator("#all_transactions_for_account tbody tr")
         await expect(checkingAccountRows).toHaveCount(3)

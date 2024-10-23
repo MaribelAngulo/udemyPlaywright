@@ -1,28 +1,30 @@
 import { test, expect } from '@playwright/test'
+import { LoginPage } from '../../page-objects/LoginPage'
+import { HomePage } from '../../page-objects/HomePage'
 
-test.describe.parallel('Login - Logout Flow', () => {
+test.describe.parallel.only('Login - Logout Flow', () => {
+    //Page Objects
+    let loginPage, homePage
+
     //Before Hook
     test.beforeEach( async ({ page }) => {
-        await page.goto("http://zero.webappsecurity.com/")
+        loginPage = new LoginPage(page)
+        homePage = new HomePage(page)
+        await homePage.visit()
     })
 
     //Negative scenario
     test("Negative scenario for login", async ({ page }) => {
-        await page.click("#signin_button")
-        await page.fill("#user_login", "some username")
-        await page.fill("#user_password", "some password")
-        await page.click("text=Sign in")
-
-        const errorMessage = await page.locator(".alert-error")
-        await expect(errorMessage).toContainText("Login and/or password are wrong.")
+        await homePage.clickOnSignInButton()
+        await loginPage.login("some user", "some password")
+        await loginPage.wait(3000)
+        await loginPage.assertErrorMessage("Login and/or password are wrong.")
     })
     
     //Positive scenario
     test("Positive scenario for login", async ({ page }) => {
-        await page.click("#signin_button")
-        await page.fill("#user_login", "username")
-        await page.fill("#user_password", "password")
-        await page.click("text=Sign in")
+        await homePage.clickOnSignInButton()
+        await loginPage.login("username", "password")
 
         await page.goto("http://zero.webappsecurity.com/bank/transfer-funds.html")
         const transferFundsTab = await page.locator("#transfer_funds_tab")
