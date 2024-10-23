@@ -1,39 +1,30 @@
 import { test, expect } from '@playwright/test'
+import { HomePage } from '../../page-objects/HomePage'
+import { FeedbackPage } from '../../page-objects/FeedbackPage'
 
 test.describe.parallel('Feedback Form', () => {
+    let homePage : HomePage
+    let feedbackPage: FeedbackPage
+
     //Before Hook
     test.beforeEach( async ({ page }) => {
-        await page.goto("http://zero.webappsecurity.com/")
-        await page.click("#feedback")
+        homePage = new HomePage(page)
+        feedbackPage = new FeedbackPage(page)
+        await homePage.visit()
+        await homePage.clickOnFeedbackButton()
     })
 
     //Reset feedback form
     test("Reset feedback form", async ({ page }) => {
-        await page.fill("#name", "Maribel")
-        await page.fill("#email", "maribel@mari.com")
-        await page.fill("#subject", "Test")
-        await page.fill("#comment", "This is an automation e2e test")
-        await page.click("input[name='clear']")
-
-        const nameInput = await page.locator("#name")
-        const commentInput = await page.locator("#comment")
-        await expect(nameInput).toBeEmpty()
-        await expect(commentInput).toBeEmpty()
+        await feedbackPage.fillFormat("Maribel", "maribel@mari.com", "Test", "This is an automation e2e test")
+        await feedbackPage.clickOnClearButton()
+        await feedbackPage.assertEmptyForm()
     })
     
     //Submit feedback form
     test("Submit feedback form", async ({ page }) => {
-        await page.fill("#name", "Maribel")
-        await page.fill("#email", "maribel@mari.com")
-        await page.fill("#subject", "Test")
-        await page.fill("#comment", "This is an automation e2e test")
-        await page.click("input[type='submit']")
-
-        //const feedbackTitle = await page.locator("#feedback-title")
-        //await expect(feedbackTitle).toBeVisible()
-        await page.waitForSelector("#feedback-title")
-    })
-    
-    
-    
+        await feedbackPage.fillFormat("Maribel", "maribel@mari.com", "Test", "This is an automation e2e test")
+        await feedbackPage.clickOnSubmitButton()
+        await feedbackPage.assertFeedbackTitle()
+    })    
 })

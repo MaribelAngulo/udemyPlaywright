@@ -1,16 +1,25 @@
 import { test, expect } from '@playwright/test'
+import { LoginPage } from '../../page-objects/LoginPage'
+import { HomePage } from '../../page-objects/HomePage'
+import { NavBar } from '../../page-objects/components/NavBar'
 
 test.describe('Transfer funds and Make Payments', () => {
+    let loginPage : LoginPage
+    let homePage : HomePage
+    let navBar : NavBar
+
     //Before Hook
     test.beforeEach( async ({ page }) => {
-        await page.goto("http://zero.webappsecurity.com/")
-        await page.click("#signin_button")
-        await page.fill("#user_login", "username")
-        await page.fill("#user_password", "password")
-        await page.click("text=Sign in")
+        homePage = new HomePage(page)
+        await homePage.visit()
+        await homePage.clickOnSignInButton()
+        loginPage = new LoginPage(page)
+        await loginPage.login("username", "password")
+        
         await page.goto("http://zero.webappsecurity.com/bank/transfer-funds.html")
-        const transferFundsTab = await page.locator("#transfer_funds_tab")
-        await expect(transferFundsTab).toBeVisible()
+        navBar = new NavBar(page)
+        await navBar.clickOnTab("Transfer Funds")
+
     })
     
     test("Transfer funds", async ({ page }) => {
