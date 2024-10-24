@@ -11,9 +11,9 @@
     "tests:visual:chrome": "playwright test --config=visual.config.ts --project=chromium",
     "tests:visual:firefox": "playwright test --config=visual.config.ts --project=firefox",
     "tests:visual:webkit": "playwright test --config=visual.config.ts --project=webkit",
-    "tests:visual:chrome:update": "playwright test --config=visual.config.ts --project=chromium --update=snapshots",
-    "tests:visual:firefox:update": "playwright test --config=visual.config.ts --project=firefox --update=snapshots",
-    "tests:visualwebkit:update": "playwright test --config=visual.config.ts --project=webkit --update=snapshots",
+    "tests:visual:chrome:update": "playwright test --config=visual.config.ts --project=chromium --update-snapshots",
+    "tests:visual:firefox:update": "playwright test --config=visual.config.ts --project=firefox --update-snapshots",
+    "tests:visualwebkit:update": "playwright test --config=visual.config.ts --project=webkit --update-snapshots",
     "tests:api": "playwright test --config=api.config.ts --project=chromium"
   },
   "author": "",
