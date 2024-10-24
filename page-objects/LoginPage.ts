@@ -8,6 +8,7 @@ export class LoginPage extends AbstractPage {
     private readonly passwordInput: Locator
     private readonly submitButton: Locator
     private readonly errorMessageLabel: Locator
+    private readonly loginForm: Locator
 
     //Constructors
     constructor (page: Page) {
@@ -17,6 +18,7 @@ export class LoginPage extends AbstractPage {
         this.passwordInput = page.locator("#user_password")
         this.submitButton = page.locator("text=Sign in")
         this.errorMessageLabel = page.locator(".alert-error")
+        this.loginForm = page.locator("#login_form")
     }
 
     //Methods
@@ -28,5 +30,13 @@ export class LoginPage extends AbstractPage {
 
     async assertErrorMessage(error: string) {
         await expect(this.errorMessageLabel).toContainText(error)
+    }
+
+    async snapshotLoginForm() {
+        await expect(await this.loginForm.screenshot()).toMatchSnapshot('login-form.png')
+    }
+
+    async snapshotErrorMessage() {
+        await expect(await this.errorMessageLabel.screenshot()).toMatchSnapshot('login-error.png')
     }
 }
