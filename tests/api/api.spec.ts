@@ -8,7 +8,7 @@ test.describe.parallel('API Testing', () => {
         expect(response.status()).toBe(200)
         
         const responseBody = JSON.parse(await response.text())
-        console.log(responseBody)
+        //console.log(responseBody)
     })
 
     test('Simple API Test - Assert Invalid Endpoint', async ({ request }) => {
@@ -24,8 +24,8 @@ test.describe.parallel('API Testing', () => {
         expect(responseBody.data.email).toBeTruthy()
         expect(responseBody.data.first_name).toBe('George')
         expect(responseBody.data.last_name).toBe('Bluth')
-        console.log('responseBody.data')
-        console.log(responseBody)
+        //console.log('responseBody.data')
+        //console.log(responseBody)
     })
 
     test('POST Request - Create New User', async ({ request }) => {
@@ -37,8 +37,8 @@ test.describe.parallel('API Testing', () => {
         const responseBody = JSON.parse(await response.text())        
         expect(responseBody.id).toBe(1000) 
         expect(responseBody.createdAt).toBeTruthy() 
-        console.log('responseBody')
-        console.log(responseBody)
+        //console.log('responseBody')
+        //console.log(responseBody)
     })
 
     test('POST Request - Login', async ({ request }) => {
@@ -51,8 +51,8 @@ test.describe.parallel('API Testing', () => {
         const responseBody = JSON.parse(await response.text())        
         expect(response.status()).toBe(200)
         expect(responseBody.token).toBeTruthy()  
-        console.log('responseBody')
-        console.log(responseBody)
+        //console.log('responseBody')
+        //console.log(responseBody)
     })
 
     test('POST Request - Login Fail', async ({ request }) => {
@@ -65,8 +65,8 @@ test.describe.parallel('API Testing', () => {
         expect(response.status()).toBe(400)
         expect(responseBody.error).toBeTruthy() 
         expect(responseBody.error).toBe('Missing password') 
-        console.log('responseBody')
-        console.log(responseBody)
+        //console.log('responseBody')
+        //console.log(responseBody)
     })
 
     test('PUT Request - Update User', async ({ request }) => {
@@ -81,8 +81,8 @@ test.describe.parallel('API Testing', () => {
         expect(responseBody.name).toBe('Ariel') 
         expect(responseBody.job).toBe('Princess') 
         expect(responseBody.updatedAt).toBeTruthy() 
-        console.log('responseBody')
-        console.log(responseBody)
+        //console.log('responseBody')
+        //console.log(responseBody)
     })
 
     test('PUT Request - Delete User', async ({ request }) => {
