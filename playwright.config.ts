@@ -24,7 +24,8 @@ const config: PlaywrightTestConfig = {
             name: "Webkit",
             use: { browserName: "webkit"}
         },
-    ]
+    ],
+    reporter: 'list',
 }
 
 export default config
