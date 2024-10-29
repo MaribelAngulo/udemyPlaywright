@@ -1,11 +1,11 @@
 import { test, expect } from '@playwright/test'
 import { loadHomepage, assertTitle } from '../helpers'
 
-test.describe('My first test suite', () => {
+test.describe.parallel('My first test suite', () => {
     test("Simple basic test", async ({ page }) => {
-        await page.goto("https://www.example.com")
-        const pageTitle = await page.locator("h1")
-        await expect(pageTitle).toContainText("Domain")
+        await page.goto("http://zero.webappsecurity.com/")
+        const pageTitle = await page.locator("a.brand")
+        await expect(pageTitle).toContainText("Zero Bank")
     })
     
     test("Clicking on elements", async ({ page }) => {
@@ -29,34 +29,35 @@ test.describe('My first test suite', () => {
     test("Assertions test", {
         tag: '@report',
       }, async ({ page }) => {
-        await page.goto("https://www.example.com")
-        await expect(page).toHaveURL("https://www.example.com")
-        await expect(page).toHaveTitle("Example Domain")
-        const element = await page.locator("h1")
+        await page.goto("http://zero.webappsecurity.com/")
+        await expect(page).toHaveURL("http://zero.webappsecurity.com/")
+        await expect(page).toHaveTitle("Zero - Personal Banking - Loans - Credit Cards")
+        const element = await page.locator("a.brand")
         await expect(element).toBeVisible()
-        await expect(element).toHaveText("Example Domain")
+        await expect(element).toHaveText("Zero Bank")
         await expect(element).toHaveCount(1)
         const nonExistingElement = await page.locator("h5")
         await expect(nonExistingElement).not.toBeVisible()
     })
 
-    test.describe.parallel.only('Hooks', () => {
+    /* test('Hooks', () => {
         test.beforeEach( async ({ page }) => {
-            await page.goto("https://www.example.com")
+            await page.goto("http://zero.webappsecurity.com/")
         })
+
         test("Screenshots", async ({ page }) => {
             await page.screenshot({ path: "screenshot.png", fullPage: true})
         })
     
         test("Single element screenshot", async ({ page }) => {
-            const element = await page.$("h1")
+            const element = await page.$("a.brand")
             await element.screenshot({ path: "single_element_screenshot.png"})
         })
-    })
+    }) */
 
     test("Custom Helpers", async ({ page }) => {
         await loadHomepage(page)
-        await page.pause() // for debugging
+        //await page.pause() // for debugging
         await assertTitle(page)
     })
 })

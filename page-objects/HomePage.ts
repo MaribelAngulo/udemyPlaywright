@@ -26,6 +26,7 @@ export class HomePage {
 
     async searchFor(phrase: string) {
         await this.searchInput.fill(phrase)
+        await this.page.waitForTimeout(3000)
         await this.page.keyboard.press("Enter")
     }
 
