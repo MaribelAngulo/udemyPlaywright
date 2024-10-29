@@ -2,7 +2,7 @@ import { test } from '@playwright/test'
 import { LoginPage } from '../../page-objects/LoginPage'
 import { HomePage } from '../../page-objects/HomePage'
 
-test.describe.only('Login Page Visual Tests', () => {
+test.describe.parallel('Login Page Visual Tests', () => {
     let loginPage : LoginPage
     let homePage : HomePage
 

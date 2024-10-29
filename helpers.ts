@@ -1,7 +1,7 @@
 export async function loadHomepage(page) {
-    await page.goto("https://www.example.com")    
+    await page.goto("http://zero.webappsecurity.com/")    
 }
 
 export async function assertTitle(page) {
-    await page.waitForSelector("h1")
+    await page.waitForSelector("a.brand")
 }
