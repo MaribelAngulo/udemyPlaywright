@@ -15,7 +15,7 @@
     "tests:visual:firefox:update": "playwright test --config=visual.config.ts --project=firefox --update-snapshots --reporter=list --retries=3",
     "tests:visual:webkit:update": "playwright test --config=visual.config.ts --project=webkit --update-snapshots --reporter=list --retries=3",
     "tests:api": "playwright test --config=api.config.ts --project=Chromium --reporter=list --retries=3",
-    "jenkins-server": "java -jar jenkins.war --httpPort=8080 --enable-future-java"
+    "deviceEmulator": "npx playwright open --device=\"iPhone 15 Pro\" wikipedia.org"
   },
   "author": "",
   "license": "ISC",
@@ -24,6 +24,7 @@
     "prettier": "^3.3.3"
   },
   "devDependencies": {
-    "@types/jquery": "^3.5.30"
+    "@types/jquery": "^3.5.30",
+    "@types/node": "^22.9.1"
   }
 }

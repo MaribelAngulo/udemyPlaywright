@@ -22,7 +22,8 @@ test.describe.parallel('Login - Logout Flow', () => {
     })
     
     //Positive scenario
-    test("Positive scenario for login", async ({ page }) => {
+    test("Positive scenario for login", async ({ page, browserName }) => {
+        test.fixme(browserName=='chromium', 'Fixme example: Feature is not stable, needs revision')
         await homePage.clickOnSignInButton()
         await loginPage.login("username", "password")
 

@@ -1,11 +1,17 @@
 import { test, expect } from '@playwright/test'
 import { loadHomepage, assertTitle } from '../helpers'
+import { getRandomNumber, getRandomString } from '../utils/data-helpers'
 
 test.describe.parallel('My first test suite', () => {
     test("Simple basic test", async ({ page }) => {
         await page.goto("http://zero.webappsecurity.com/")
         const pageTitle = await page.locator("a.brand")
         await expect(pageTitle).toContainText("Zero Bank")
+
+        let number = await getRandomNumber()
+        let newString = await getRandomString(20)
+        console.log(number)
+        console.log(newString)
     })
     
     test("Clicking on elements", async ({ page }) => {
