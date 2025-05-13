@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
 import { HomePage } from '../../page-objects/HomePage'
 
-test.describe.parallel('Search Result', () => {
+test.describe.parallel.only('Search Result', () => {
     let homePage: HomePage
 
     //Before Hook
@@ -17,7 +17,7 @@ test.describe.parallel('Search Result', () => {
         const numberOfLinks= await page.locator("li > a")
         await expect(numberOfLinks).toHaveCount(2)
 
-        console.log(testInfo.expectedStatus)
+        //console.log(testInfo.expectedStatus)
     })
 
     const people = ['Maribel', 'Cris', 'Romi', 'Nico']
