@@ -10,11 +10,14 @@ test.describe.parallel('Search Result', () => {
         await homePage.visit()
     })
 
-    test("should find search results", async ({ page }) => {
+    test("should find search results", async ({ page, browserName }, testInfo) => {
+        test.skip(browserName=='chromium', 'Skip Browser example: Feature not ready from chrome browser')
         await homePage.searchFor("bank")
 
         const numberOfLinks= await page.locator("li > a")
         await expect(numberOfLinks).toHaveCount(2)
+
+        console.log(testInfo.expectedStatus)
     })
 
     const people = ['Maribel', 'Cris', 'Romi', 'Nico']

@@ -1,2 +1,3 @@
 node_modules/
 test-results/
+tests/visual/login-visual.spec.ts-snapshots/

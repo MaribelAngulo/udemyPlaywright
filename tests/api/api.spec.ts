@@ -4,7 +4,7 @@ test.describe.parallel('API Testing', () => {
     const baseUrl = "https://reqres.in/api/"
 
     test('Simple API Test - Assert Response Status', async ({ request }) => {
-        const response = await request.get(`${baseUrl}users/1`)
+        const response = await request.get(`${baseUrl}users/2`)
         expect(response.status()).toBe(200)
         
         const responseBody = JSON.parse(await response.text())
@@ -12,26 +12,33 @@ test.describe.parallel('API Testing', () => {
     })
 
     test('Simple API Test - Assert Invalid Endpoint', async ({ request }) => {
-        const response = await request.get(`${baseUrl}users/1wrf`)
+        const baseUrl = "https://academybugs.com/"
+        const response = await request.get(`${baseUrl}store/dnk-yellow-shoe/`)
         expect(response.status()).toBe(404)
     })
 
     test('GET Request - Get User Detail', async ({ request }) => {
-        const response = await request.get(`${baseUrl}users/1`)
+        const response = await request.get(`${baseUrl}users/2`)
         const responseBody = JSON.parse(await response.text())
         expect(response.status()).toBe(200)
-        expect(responseBody.data.id).toBe(1)  
+        expect(responseBody.data.id).toBe(2)  
         expect(responseBody.data.email).toBeTruthy()
-        expect(responseBody.data.first_name).toBe('George')
-        expect(responseBody.data.last_name).toBe('Bluth')
+        expect(responseBody.data.first_name).toBe('Janet')
+        expect(responseBody.data.last_name).toBe('Weaver')
         //console.log('responseBody.data')
         //console.log(responseBody)
     })
 
-    test('POST Request - Create New User', async ({ request }) => {
-        const response = await request.post(`${baseUrl}users`, {
+    test('POST Request - Create New User', async ({ playwright }) => {
+        const apiContext = await playwright.request.newContext({
+            extraHTTPHeaders: {
+            'x-api-key': 'reqres-free-v1',
+            'Content-Type': 'application/json',
+            },
+        });
+        const response = await apiContext.post(`${baseUrl}users`, {
             data: {
-                id:1000,
+                id: 1000
             },
         })
         const responseBody = JSON.parse(await response.text())        
@@ -41,22 +48,33 @@ test.describe.parallel('API Testing', () => {
         //console.log(responseBody)
     })
 
-    test('POST Request - Login', async ({ request }) => {
-        const response = await request.post(`${baseUrl}login`, {
-            data: {
-                email: "eve.holt@reqres.in",
-                password: "cityslicka",
+    test('POST Request - Login', async ({ playwright }) => {
+        const apiContext = await playwright.request.newContext({
+            extraHTTPHeaders: {
+            'x-api-key': 'reqres-free-v1',
+            'Content-Type': 'application/json',
             },
-        })
-        const responseBody = JSON.parse(await response.text())        
-        expect(response.status()).toBe(200)
-        expect(responseBody.token).toBeTruthy()  
-        //console.log('responseBody')
-        //console.log(responseBody)
-    })
+        });
+        const response = await apiContext.post(`${baseUrl}login`, {
+            data: {
+                email: 'eve.holt@reqres.in',
+                password: 'cityslicka',
+            },
+        });
+        expect(response.ok()).toBeTruthy(); // Verifica código 200
+        const responseBody = await response.json();
+        expect(responseBody.token).toBeDefined(); // Verifica que viene un token
+        //console.log('Token recibido:', responseBody.token);
+    });
 
-    test('POST Request - Login Fail', async ({ request }) => {
-        const response = await request.post(`${baseUrl}login`, {
+    test('POST Request - Login Fail', async ({ playwright }) => {
+        const apiContext = await playwright.request.newContext({
+            extraHTTPHeaders: {
+            'x-api-key': 'reqres-free-v1',
+            'Content-Type': 'application/json',
+            },
+        });
+        const response = await apiContext.post(`${baseUrl}login`, {
             data: {
                 email: "peter@klaven",
             },
@@ -69,8 +87,14 @@ test.describe.parallel('API Testing', () => {
         //console.log(responseBody)
     })
 
-    test('PUT Request - Update User', async ({ request }) => {
-        const response = await request.put(`${baseUrl}users/2`, {
+    test('PUT Request - Update User', async ({ playwright }) => {
+        const apiContext = await playwright.request.newContext({
+            extraHTTPHeaders: {
+            'x-api-key': 'reqres-free-v1',
+            'Content-Type': 'application/json',
+            },
+        });
+        const response = await apiContext.put(`${baseUrl}users/2`, {
             data: {
                 name: "Ariel",
                 job: "Princess"
@@ -85,9 +109,15 @@ test.describe.parallel('API Testing', () => {
         //console.log(responseBody)
     })
 
-    test('PUT Request - Delete User', async ({ request }) => {
+    test('PUT Request - Delete User', async ({ playwright }) => {
+        const apiContext = await playwright.request.newContext({
+            extraHTTPHeaders: {
+            'x-api-key': 'reqres-free-v1',
+            'Content-Type': 'application/json',
+            },
+        });
         const idDelete = "2"
-        const response = await request.delete(`${baseUrl}users/${idDelete}`)
+        const response = await apiContext.delete(`${baseUrl}users/${idDelete}`)
         expect(response.status()).toBe(204)
     })
 })
