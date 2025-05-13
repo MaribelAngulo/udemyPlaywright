@@ -10,8 +10,10 @@ test.describe.parallel('My first test suite', () => {
 
         let number = await getRandomNumber()
         let newString = await getRandomString(20)
-        console.log(number)
-        console.log(newString)
+        //console.log(number)
+        //console.log(newString)
+        await expect(number).toBeTruthy()
+        await expect(newString).toHaveLength(20)
     })
     
     test("Clicking on elements", async ({ page }) => {
